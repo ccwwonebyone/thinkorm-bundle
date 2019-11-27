@@ -1,13 +1,15 @@
 <?php
 namespace OneThink\OrmBundle\DataCollector;
 
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\DataCollector\DataCollector;
 
 class OneThinkOrmCollector extends DataCollector
 {
     protected static $sql_infos = [];
 
-    public function collect(\Exception $exception = null)
+    public function collect(Request $request, Response $response, \Exception $exception = null)
     {
         $connect = reset(static::$sql_infos);
         $this->data['connect'] = $connect;
