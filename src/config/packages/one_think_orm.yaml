@@ -9,10 +9,3 @@ one_think_orm:
             password: '%env(DB_PASSWORD)%'
             database: '%env(DB_DATABASE)%'
             trigger_sql: '%env(bool:DEBUG)%'
-        sqlite:
-            type: 'sqlite'
-            hostname: '127.0.0.1'
-            hostport: '3306'
-            username: 'root'
-            password: '123456'
-            database: 'genealogy'
