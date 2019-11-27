@@ -10,7 +10,7 @@ the ```thinkorm-bundle``` package allows you use think-orm in symfony.
 
 ## Installation
 
-Require the ccwwwonebyone/thinkorm-bundle package in your composer.json and update your dependencies:
+Require the ```ccwwwonebyone/thinkorm-bundle``` package in your ```composer.json``` and update your dependencies:
 ```sh
  $ composer require ccwwwonebyone/thinkorm-bundle
 ```
