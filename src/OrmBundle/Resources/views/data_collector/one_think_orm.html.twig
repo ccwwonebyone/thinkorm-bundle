@@ -1,0 +1,192 @@
+{% extends request.isXmlHttpRequest ? '@WebProfiler/Profiler/ajax_layout.html.twig' : '@WebProfiler/Profiler/layout.html.twig' %}
+
+{% import _self as helper %}
+
+{% block toolbar %}
+    {% if collector.querycount > 0 %}
+        {% set icon %}
+            {% set status = collector.querycount > 50 ? 'red' : collector.querycount > 30 ? 'yellow' %}
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAcCAYAAAB/E6/TAAABLUlEQVR42u3TP0vDQBiA8UK/gDiLzi0IhU4OEunk5OQUAhGSOBUCzqWfIKSzX8DRySF0URCcMjWLIJjFD9Cpk/D6HITecEPUuzhIAz8CIdyTP/f2iqI4qaqqDx8l5Ic2uIeP/bquezCokOAFF+oCN3t4gPzSEjc4NEPaCldQbzjELTYW0RJzHDchwwem+ons6ZBpLSJ7nueJC22h0V+FzmwWV0ee59vQNV67CGVZJmEYbkNjfpY6X6I0Qo4/3RMmTdDDspuQVsJvgkP3IdMbIkIjLPBoadG2646iKJI0Ta2wxm6OdnP0/Tk6DYJgHcfxpw21RtscDTDDnaVZ26474GkkSRIrrPEv5sgMTfHe+cA2O6wPH6vOBpYQNALneHb96XTEDI6dzpEZ0VzO0Rf3pP5LMLI4tAAAAABJRU5ErkJggg==" alt="" />
+            <span class="sf-toolbar-value">{{ collector.querycount }}</span>
+            <span class="sf-toolbar-info-piece-additional-detail">
+                <span class="sf-toolbar-label">in</span>
+                <span class="sf-toolbar-value">{{ '%0.2f'|format(collector.time * 1000) }}</span>
+                <span class="sf-toolbar-label">ms</span>
+            </span>
+        {% endset %}
+
+        {% set text %}
+            {# this is the content displayed when hovering the mouse over
+               the toolbar panel #}
+            <div class="sf-toolbar-info-piece">
+                <b>query count</b>
+                <span>{{ collector.querycount }}</span>
+            </div>
+
+            <div class="sf-toolbar-info-piece">
+                <b>query time</b>
+                <span>{{ '%0.2f'|format(collector.time * 1000) }} ms</span>
+            </div>
+        {% endset %}
+    {% endif %}
+
+    {# the 'link' value set to 'false' means that this panel doesn't
+       show a section in the web profiler #}
+    {{ include('@WebProfiler/Profiler/toolbar_item.html.twig', { link: profiler_url, status: collector.querycount|default('') }) }}
+{% endblock %}
+
+{% block head %}
+    {{ parent() }}
+    {# Optional. Here you can link to or define your own CSS and JS contents. #}
+    {# Use {{ parent() }} to extend the default styles instead of overriding them. #}
+{% endblock %}
+
+{% block menu %}
+    {# This left-hand menu appears when using the full-screen profiler. #}
+    <span class="label">
+         <span class="icon">
+             {{ include('@ThinkOrm/data_collector/icon.svg') }}
+         </span>
+         <strong>ThinkOrm</strong>
+    </span>
+{% endblock %}
+
+{% block panel %}
+    {% set profiler_markup_version = profiler_markup_version|default(1) %}
+
+    {% if 'explain' == page %}
+        {{ render(controller('DoctrineBundle:Profiler:explain', {
+            token: token,
+            panel: 'db',
+            connectionName: request.query.get('connection'),
+            query: request.query.get('query')
+        })) }}
+    {% else %}
+        {{ block('queries') }}
+    {% endif %}
+{% endblock %}
+
+{% block queries %}
+    <style>
+        {% if profiler_markup_version == 1 %}
+        .hidden { display: none; }
+        .queries-table td, .queries-table th { vertical-align: top; }
+        .queries-table td > div { margin-bottom: 6px; }
+        .highlight pre { margin: 0; white-space: pre-wrap; }
+        .highlight .keyword   { color: #8959A8; font-weight: bold; }
+        .highlight .word      { color: #222222; }
+        .highlight .variable  { color: #916319; }
+        .highlight .symbol    { color: #222222; }
+        .highlight .comment   { color: #999999; }
+        .highlight .backtick  { color: #718C00; }
+        .highlight .string    { color: #718C00; }
+        .highlight .number    { color: #F5871F; font-weight: bold; }
+        .highlight .error     { color: #C82829; }
+        {% endif %}
+
+        .time-container { position: relative; }
+        .time-container .nowrap { position: relative; z-index: 1; text-shadow: 0 0 2px #fff; }
+        .time-bar { display: block; position: absolute; top: 0; left: 0; bottom: 0; background: #e0e0e0; }
+    </style>
+
+    {% if profiler_markup_version > 1 %}
+        <h2>Query Metrics</h2>
+
+        <div class="metrics">
+            <div class="metric">
+                <span class="value">{{ collector.querycount }}</span>
+                <span class="label">Database Queries</span>
+            </div>
+
+            <div class="metric">
+                <span class="value">{{ collector.groupedQueryCount }}</span>
+                <span class="label">Different statements</span>
+            </div>
+
+            <div class="metric">
+                <span class="value">{{ '%0.2f'|format(collector.time * 1000) }} ms</span>
+                <span class="label">Query time</span>
+            </div>
+        </div>
+    {% endif %}
+
+    <h2>Database Queries</h2>
+
+    {% if not collector.queries %}
+        <div class="empty">
+            <p>There are no database queries.</p>
+        </div>
+    {% else %}
+{#        {{ helper.render_table(['sql', 'runtime', 'master'], collector.queries) }}#}
+        <table>
+            <thead>
+                <tr>
+                    <th scope="col" class="key">sql</th>
+                    <th scope="col" class="key">runtime</th>
+                    <th scope="col" class="key">master</th>
+                </tr>
+            </thead>
+            <thbody>
+                {% for query in collector.queries %}
+                    <tr>
+                        <td scope="row">{{ query['sql'] }}</td>
+                        <td scope="row">{{ query['runtime'] * 1000 }} ms</td>
+                        <td scope="row">{{ query['master'] }}</td>
+                    </tr>
+                {% endfor %}
+            </thbody>
+
+        </table>
+    {% endif %}
+
+    <h2>Database Connections</h2>
+
+    {% if not collector.connect %}
+        <div class="empty">
+            <p>There are no configured database connections.</p>
+        </div>
+    {% else %}
+        {{ helper.render_simple_table('type', 'detail', collector.connect) }}
+    {% endif %}
+
+{% endblock %}
+
+{% macro render_simple_table(label1, label2, data) %}
+    <table>
+        <thead>
+        <tr>
+            <th scope="col" class="key">{{ label1 }}</th>
+            <th scope="col">{{ label2 }}</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for key, value in data %}
+            <tr>
+                <th scope="row">{{ key }}</th>
+                <td>{{ value }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endmacro %}
+
+{% macro render_table(heads, data) %}
+    <table>
+        <thead>
+        <tr>
+            {% for head in heads %}
+                <th scope="col" class="key">{{ head }}</th>
+            {% endfor %}
+        </tr>
+        </thead>
+        <tbody>
+        {% for value in data %}
+            <tr>
+                {% for head in heads %}
+                    <td>{{ value[head] }}</td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endmacro %}

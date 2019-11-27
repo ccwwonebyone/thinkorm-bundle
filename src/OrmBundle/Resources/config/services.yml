@@ -1,0 +1,16 @@
+services:
+    _defaults:
+        autowire: true      # Automatically injects dependencies in your services.
+#        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+
+    data_collector.onethinkorm:
+        class: OneThink\OrmBundle\DataCollector\OneThinkOrmCollector
+        tags:
+            -
+                name: data_collector
+                template: '@OneThinkOrm/data_collector/one_think_orm.html.twig'
+                public: false
+                # must match the value returned by the getName() method
+                id: 'onethinkorm'
+                # optional priority
+                priority: 251
