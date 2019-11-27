@@ -8,7 +8,7 @@ class Configuration implements ConfigurationInterface
 {
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder('onethink_orm');
+        $treeBuilder = new TreeBuilder('one_think_orm');
         $node = $treeBuilder->getRootNode();
         $node->children()
                 ->scalarNode('default')->end()
