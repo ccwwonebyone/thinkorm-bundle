@@ -1,6 +1,7 @@
 # thinkorm-bundle
 [![Latest Version on Packagist][ico-version]][link-packagist]
 [![Software License][ico-license]](LICENSE.md)
+[![Build Status][ico-travis]][link-travis]
 [![Total Downloads][ico-downloads]][link-downloads]
 
 Symfony Think Orm Bundle
@@ -43,6 +44,13 @@ you can see [ThinkORM开发指南](https://www.kancloud.cn/manual/think-orm/1257
 ## License
 
 Released under the MIT License, see [LICENSE](LICENSE).
+
+[ico-version]: https://img.shields.io/packagist/v/ccwwonebyone/thinkorm-bundle.svg?style=flat-square
+[ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
+[ico-travis]: https://img.shields.io/travis/ccwwonebyone/thinkorm-bundle/master.svg?style=flat-square
+[ico-scrutinizer]: https://img.shields.io/scrutinizer/coverage/g/ccwwonebyone/thinkorm-bundle.svg?style=flat-square
+[ico-code-quality]: https://img.shields.io/scrutinizer/g/ccwwonebyone/thinkorm-bundle.svg?style=flat-square
+[ico-downloads]: https://img.shields.io/packagist/dt/ccwwonebyone/thinkorm-bundle.svg?style=flat-square
 
 [link-downloads]: https://packagist.org/packages/ccwwonebyone/thinkorm-bundle
 [link-packagist]: https://packagist.org/packages/ccwwonebyone/thinkorm-bundle
