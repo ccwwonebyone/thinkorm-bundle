@@ -27,7 +27,7 @@ class OneThinkOrmCollector extends DataCollector
 
     public function getName()
     {
-        return 'thinkorm';
+        return 'onethinkorm';
     }
 
     public function connect()
