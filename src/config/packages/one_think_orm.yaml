@@ -1,4 +1,4 @@
-think_orm:
+one_think_orm:
     default: 'mysql'
     connections:
         mysql:
