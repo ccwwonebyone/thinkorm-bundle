@@ -8,7 +8,7 @@ services:
         tags:
             -
                 name: data_collector
-                template: 'data_collector/one_think_orm.html.twig'
+                template: '@OneThinkOrm\data_collector/one_think_orm.html.twig'
                 public: false
                 # must match the value returned by the getName() method
                 id: 'onethinkorm'
