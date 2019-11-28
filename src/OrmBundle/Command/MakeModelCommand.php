@@ -72,7 +72,7 @@ class MakeModelCommand extends Command
         array_pop($path_model);
         $dir_path = $this->root_path. DIRECTORY_SEPARATOR . $this->app_dir . $this->model_path . DIRECTORY_SEPARATOR .implode(DIRECTORY_SEPARATOR, $path_model);
         if(!is_dir($dir_path)){
-            mkdir($dir_path, '0777', true);
+            mkdir($dir_path, 0777, true);
         }
         return true;
     }
