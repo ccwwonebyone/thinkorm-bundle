@@ -14,3 +14,6 @@ services:
                 id: 'onethinkorm'
                 # optional priority
                 priority: 251
+    OneThink\OrmBundle\Command\MakeModelCommand:
+        tags:
+            - { name: 'console.command', command: 'onethink:make:model'}

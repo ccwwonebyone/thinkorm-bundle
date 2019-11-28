@@ -8,9 +8,9 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class CreateModelCommand extends Command
+class MakeModelCommand extends Command
 {
-    protected static $defaultName = 'think:generate:model';
+    protected static $defaultName = 'onethink:make:model';
 
     protected $namesapce;
 
