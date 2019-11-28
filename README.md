@@ -35,7 +35,7 @@ DB_HOSTNAME=host
 DB_USERNAME=username
 DB_PASSWORD=password
 DB_DATABASE=database
-DEBUG=true
+APP_DEBUG=true
 ```
 you can see [ThinkORM开发指南](https://www.kancloud.cn/manual/think-orm/1257998) to learn other configurations
 

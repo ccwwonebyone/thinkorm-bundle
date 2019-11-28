@@ -8,4 +8,4 @@ one_think_orm:
             username: '%env(DB_USERNAME)%'
             password: '%env(DB_PASSWORD)%'
             database: '%env(DB_DATABASE)%'
-            trigger_sql: '%env(bool:DEBUG)%'
+            trigger_sql: '%env(bool:APP_DEBUG)%'
