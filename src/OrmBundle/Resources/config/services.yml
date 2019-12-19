@@ -17,3 +17,6 @@ services:
     OneThink\OrmBundle\Command\MakeModelCommand:
         tags:
             - { name: 'console.command', command: 'onethink:make:model'}
+    OneThink\OrmBundle\EventListener\ResponseListener:
+        tags:
+            - {name: kernel.event_listener, event: kernel.response}
